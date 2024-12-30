@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: "AUTO1_PROJECT"
+    schema: "ANALYTICS_ENGINEERING_SCHEMA"
+    description: ""
+    tables:
+      - name: "PAYMENT_DATA"
+        description: ""
+      - name: "PAYMENT_INSTRUCTION_TOKEN_DATA"
+        description: ""
+      - name: "PAYMENT_REQUEST_DATA"
+        description: ""
+      - name: "PRIMER_ACCOUNT"
+        description: ""
