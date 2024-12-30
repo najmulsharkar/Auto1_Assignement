@@ -7,9 +7,50 @@ sources:
     tables:
       - name: "PAYMENT_DATA"
         description: ""
+        columns:
+          - name: PAYMENT_ID
+            description: ""
+            tests:
+              - unique
+              - not_null
+              - relationships:
+                  to: ref('PAYMENT_REQUEST_DATA')
+                  field: PAYMENT_ID
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['SETTLED', 'AUTHORIZED', 'CANCELLED', 'FAILED', 'DECLINED', 'SETTLING', 'PARTIALLY_SETTLED', 'PENDING']
+
       - name: "PAYMENT_INSTRUCTION_TOKEN_DATA"
         description: ""
+        columns:
+          - name: TOKEN_ID
+            description: ""
+            tests:
+              - unique
+              - not_null
+              - relationships:
+                  to: ref('PAYMENT_DATA')
+                  field: TOKEN_ID
       - name: "PAYMENT_REQUEST_DATA"
         description: ""
+        columns:
+          - name: PAYMENT_REQUEST_ID
+            description: ""
+            tests:
+              - unique
+              - not_null
       - name: "PRIMER_ACCOUNT"
         description: ""
+        columns:
+          - name: PRIMER_ACCOUNT_ID
+            description: ""
+            tests:
+              - unique
+              - not_null
+              - relationships:
+                  to: ref('PAYMENT_REQUEST_DATA')
+                  field: PRIMER_ACCOUNT_ID
+              - relationships:
+                  to: ref('PAYMENT_DATA')
+                  field: PRIMER_ACCOUNT_ID
