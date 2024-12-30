@@ -5,6 +5,11 @@ WITH PAYMENT_INSTRUCTION_TOKEN_DATA_TRANSFORMATION AS (
         TOKEN_ID,
         TOKEN_TYPE,
         THREE_D_SECURE_AUTHENTICATION,
+        /*
+        Replaces single quotes (') in the THREE_D_SECURE_AUTHENTICATION column with double quotes (") to make the type JSON
+        and then replaces the string 'None' to NULL
+        After that extract AUTHENTICATION related fields from the nested JSON structure
+        */
         PARSE_JSON(REPLACE(REPLACE(THREE_D_SECURE_AUTHENTICATION, '''', '"'),'None','null')):reason_code::STRING AS REASON_CODE,
         PARSE_JSON(REPLACE(REPLACE(THREE_D_SECURE_AUTHENTICATION, '''', '"'),'None','null')):reason_text::STRING AS REASON_TEXT,
         PARSE_JSON(REPLACE(REPLACE(THREE_D_SECURE_AUTHENTICATION, '''', '"'),'None','null')):response_code::STRING AS RESPONSE_CODE,
