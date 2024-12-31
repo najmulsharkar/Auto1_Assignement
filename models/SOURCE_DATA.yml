@@ -20,7 +20,6 @@ sources:
             tests:
               - accepted_values:
                   values: ['SETTLED', 'AUTHORIZED', 'CANCELLED', 'FAILED', 'DECLINED', 'SETTLING', 'PARTIALLY_SETTLED', 'PENDING']
-
       - name: "PAYMENT_INSTRUCTION_TOKEN_DATA"
         description: ""
         columns:

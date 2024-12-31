@@ -1,3 +1,9 @@
+/*
+A SATELLITE in Data Vault 2.0 stores descriptive and historical data for a hub or link,
+capturing changes over time along with metadata for tracking.
+*/
+
+-- This configures the model as a view in the data warehouse Snowflake with a unique key
 {{ config(
     materialized='view',
     unique_key=['PAYMENT_REQUEST_HK']
@@ -5,7 +11,8 @@
 
 WITH SAT_PAYMENT_REQUEST AS (
     SELECT
-        MD5(PAYMENT_REQUEST_ID) AS PAYMENT_REQUEST_HK,
+        -- Generate the hash key for the business key
+        MD5(PAYMENT_REQUEST_ID) AS PAYMENT_REQUEST_HK,  -- HK = HASH KEY
         CURRENCY_CODE,
         CREATED_AT,
         PAYMENT_REQUEST_TYPE,

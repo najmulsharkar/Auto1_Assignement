@@ -1,3 +1,6 @@
+-- This configures the model as a view in the data warehouse Snowflake
+{{ config(materialized='view') }}
+
 SELECT
     PROCESSOR,
     -- Calculate the Authorization Rate as:

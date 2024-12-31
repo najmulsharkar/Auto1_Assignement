@@ -1,3 +1,4 @@
+-- This configures the model as a view in the data warehouse Snowflake
 {{ config(materialized='view') }}
 
 WITH PAYMENT_REQUEST_DATA_CLEANED AS (

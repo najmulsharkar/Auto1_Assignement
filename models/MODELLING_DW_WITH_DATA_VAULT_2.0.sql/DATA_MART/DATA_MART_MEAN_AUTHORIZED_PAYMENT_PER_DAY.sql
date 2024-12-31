@@ -1,3 +1,4 @@
+-- This configures the model as a view in the data warehouse Snowflake
 {{ config(materialized='view') }}
 
 -- Step 1: Calculate the daily count of successfully authorized payments for each processor

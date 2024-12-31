@@ -3,6 +3,7 @@ This dbt model takes the raw data from the PAYMENT_DATA table, transforming and 
 It prepares a cleaned dataset for downstream analysis while handling nested JSON structures and ensuring proper formatting of critical columns.
 */
 
+-- This configures the model as a view in the data warehouse Snowflake
 {{ config(materialized='view') }}
 
 WITH PAYMENT_DATA_TRANSFORMATION AS (
@@ -11,7 +12,7 @@ WITH PAYMENT_DATA_TRANSFORMATION AS (
         CURRENCY_CODE,
         CUSTOMER_DETAILS,
         /*
-        Replaces single quotes (') in the CUSTOMER_DETAILS column with double quotes (") to make the type JSON
+        Replaces single quotes (') in CUSTOMER_DETAILS column with double quotes (") to make JSON datatype
         and then replaces the string 'None' to NULL
         After that extract customer-related fields from the nested JSON structure
         */
