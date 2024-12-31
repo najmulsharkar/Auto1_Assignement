@@ -1,4 +1,4 @@
-WITH SOURCE_DATA_1 AS (
+WITH PAYMENT_DATA AS (
     SELECT DISTINCT -- Ensure unique business keys
         PAYMENT_ID,
         CREATED_AT AS LOAD_DATE,
@@ -7,7 +7,7 @@ WITH SOURCE_DATA_1 AS (
         {{ ref('STAG_PAYMENT_DATA') }}
 ),
 
-SOURCE_DATA_2 AS (
+PAYMENT_REQUEST_DATA AS (
     SELECT DISTINCT -- Ensure unique business keys
         PAYMENT_ID,
         CURRENT_TIMESTAMP AS LOAD_DATE, -- current timestamp since this table does not have any date related column
@@ -18,9 +18,9 @@ SOURCE_DATA_2 AS (
 
 COMBINED_SOURCE_DATA AS (
     -- Combine unique PAYMENT_ID from both tables
-    SELECT * FROM SOURCE_DATA_1
+    SELECT * FROM PAYMENT_DATA
     UNION ALL
-    SELECT * FROM SOURCE_DATA_2
+    SELECT * FROM PAYMENT_REQUEST_DATA
 ),
 
 DISTINCT_SOURCE_DATA AS (
@@ -38,7 +38,7 @@ DISTINCT_SOURCE_DATA AS (
 HUB_PAYMENT_ID AS (
     SELECT
         -- Generate hash key from the business key
-        MD5(PAYMENT_ID) AS MERCHANT_PAYMENT_HK, -- HK = HASH KEY
+        MD5(PAYMENT_ID) AS PAYMENT_HK, -- HK = HASH KEY
         PAYMENT_ID,
         LOAD_DATE,
         RECORD_SOURCE
