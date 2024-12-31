@@ -1,6 +1,15 @@
+/*
+A HUB in Data Vault 2.0 is a core table that stores unique business keys representing the primary
+key in the data model (e.g., `CUSTOMER_ID`, `ORDER_ID`).
+It contains minimal attributes: the business key, a unique hash key, load timestamp, and record source
+*/
+
+-- This configures the model as a view in the data warehouse Snowflake
+{{ config(materialized='view') }}
+
 WITH PRIMER_ACCOUNT AS (
     SELECT DISTINCT -- Ensure unique business keys
-        PRIMER_ACCOUNT_ID,
+        PRIMER_ACCOUNT_ID, -- Business key
         CREATED_AT AS LOAD_DATE,
         'PRIMER_ACCOUNT' AS RECORD_SOURCE -- Source system name (Here table name for the simplicity)
     FROM 
@@ -9,7 +18,7 @@ WITH PRIMER_ACCOUNT AS (
 
 PAYMENT_DATA AS (
     SELECT DISTINCT -- Ensure unique business keys
-        PRIMER_ACCOUNT_ID,
+        PRIMER_ACCOUNT_ID, -- Business key
         CREATED_AT AS LOAD_DATE, -- current timestamp since this table does not have any date related column
         'PAYMENT_DATA' AS RECORD_SOURCE -- Source system name (Here table name for the simplicity)
     FROM 
@@ -28,7 +37,7 @@ DISTINCT_SOURCE_DATA AS (
     SELECT DISTINCT 
         PRIMER_ACCOUNT_ID,
         MIN(LOAD_DATE) AS LOAD_DATE, -- Use the earliest load date
-        MIN(RECORD_SOURCE) AS RECORD_SOURCE -- Pick one source for the record
+        MIN(RECORD_SOURCE) AS RECORD_SOURCE -- Picking just one source
     FROM
         COMBINED_SOURCE_DATA
     GROUP BY 

@@ -1,3 +1,6 @@
+-- This configures the model as a view in the data warehouse Snowflake
+{{ config(materialized='view') }}
+
 WITH MERCHANT_WITH_METADATA AS (
     SELECT
         PRIMER_ACCOUNT.COMPANY_NAME,

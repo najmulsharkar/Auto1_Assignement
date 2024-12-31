@@ -1,5 +1,7 @@
--- Step 1: Calculate the number of declined payments grouped by network
+-- This configures the model as a view in the data warehouse Snowflake
+{{ config(materialized='view') }}
 
+-- Step 1: Calculate the number of declined payments grouped by network
 WITH DECLINED_PAYMENT AS (
     SELECT
         PAYMENT_INSTRUCTION.NETWORK,

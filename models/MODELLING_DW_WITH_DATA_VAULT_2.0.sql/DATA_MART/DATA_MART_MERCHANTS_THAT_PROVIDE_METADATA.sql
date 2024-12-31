@@ -1,5 +1,7 @@
+-- This configures the model as a view in the data warehouse Snowflake
 {{ config(materialized='view') }}
 
+-- Step 1: Selecting necessary tables first and columns needed
 WITH LINK_PAYMENT_REQUEST__X__PRIMER_ACCOUNT AS (
     SELECT
         PAYMENT_REQUEST_HK,
@@ -24,6 +26,7 @@ SAT_PRIMER_ACCOUNT AS (
         {{ ref('RAW_CORE_SATELITE_PRIMER_ACCOUNT') }}
 ),
 
+-- Step 2: Joining with link and sat to answer the questions
 MERCHANT_WITH_METADATA AS (
     SELECT
         PRIMER_ACCOUNT.COMPANY_NAME,
@@ -43,5 +46,5 @@ MERCHANT_WITH_METADATA AS (
         PAYMENT_REQUEST.METADATA IS NOT NULL
 )
 
---Selecting the distinct companies where metadata values provides
+-- Step 3: Selecting the distinct companies where metadata values provides
 SELECT DISTINCT COMPANY_NAME FROM MERCHANT_WITH_METADATA

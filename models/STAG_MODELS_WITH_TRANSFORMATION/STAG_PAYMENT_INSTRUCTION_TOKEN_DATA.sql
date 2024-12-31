@@ -1,3 +1,4 @@
+-- This configures the model as a view in the data warehouse Snowflake
 {{ config(materialized='view') }}
 
 WITH PAYMENT_INSTRUCTION_TOKEN_DATA_TRANSFORMATION AS (

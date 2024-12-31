@@ -1,3 +1,4 @@
+-- This configures the model as a view in the data warehouse Snowflake
 {{ config(materialized='view') }}
 
 WITH PRIMER_ACCOUNT_CLEANED AS (

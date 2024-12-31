@@ -1,12 +1,13 @@
+-- This configures the model as a view in the data warehouse Snowflake
 {{ config(materialized='view') }}
 
+-- Step 1: Selecting necessary tables first and columns needed
 WITH LINK_PAYMENT__X__TOKEN AS (
     SELECT
         PAYMENT_HK,
         TOKEN_HK
     FROM
         {{ ref('RAW_CORE_LINK_PAYMENT__X__TOKEN__X__PRIMER_ACCOUNT') }}
-
 ),
 
 SAT_PAYMENT AS (
@@ -25,6 +26,7 @@ SAT_PAYMENT_INSTRUCTION_TOKEN AS (
         {{ ref('RAW_CORE_SATELITE_PAYMENT_INSTRUCTION_TOKEN') }}
 ),
 
+-- Step 2: Joining link and sat to answer the questions
 DECLINED_PAYMENT AS (
     SELECT
         PAYMENT_INSTRUCTION.NETWORK,
@@ -49,7 +51,7 @@ DECLINED_PAYMENT AS (
         NUMBER_OF_DECLINED_PAYMENT DESC -- Sort in descending order of the number of declined payments
 )
 
--- Step 2: Retrieve the network with the highest number of declined payments
+-- Step 3: Retrieve the network with the highest number of declined payments
 SELECT
     NETWORK,
     NUMBER_OF_DECLINED_PAYMENT
